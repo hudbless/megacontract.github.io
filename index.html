@@ -3,158 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Документы</title>
-    <style>
-        /* Общий стиль */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #00b956;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
+    <title>Мегафон</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #00b956;
+        color: #000;
+        overflow-x: hidden;
+    }
 
-        /* Логотип в верхней части */
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            background-color: #fff;
-            padding: 10px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    header {
+        position: relative;
+        background: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 12px;
+        text-align: center;
+    }
 
-        .header img {
-            height: 40px;
-        }
+    header img {
+        height: 40px;
+    }
 
-        /* Круг в верхнем правом углу */
-        .background-circle {
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 80px;
-            height: 80px;
-            background-color: #731982;
-            border-radius: 50%;
-            z-index: 0;
-        }
+    .circle {
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 80px;
+        height: 80px;
+        background-color: #731982;
+        border-radius: 50%;
+    }
 
-        /* Контейнер для кнопок */
-        .button-container {
-            margin-top: 20px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            z-index: 2;
-        }
+    .search-container {
+        text-align: center;
+        margin: 20px 0;
+    }
 
-        .button {
-            background-color: #fff;
-            color: #000;
-            text-align: center;
-            padding: 15px 10px;
-            font-size: 16px;
-            text-decoration: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            width: 250px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .search-container input {
+        width: 80%;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
 
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-        }
+    .buttons-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin: 20px;
+    }
 
-        .button.subtext {
-            font-size: 12px;
-            color: gray;
-            margin-top: 5px;
-        }
+    .button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 150px;
+        padding: 10px;
+        background-color: #fff;
+        color: #000;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-        /* Анимация фигур */
-        .shape {
-            position: absolute;
-            border: 2px solid #fff;
-            background-color: transparent; /* Без заливки */
-            z-index: 1;
-            animation: fall 8s linear infinite, spin 10s linear infinite;
-            opacity: 0.8;
-            top: -50px; /* Начальная позиция для появления сверху */
-        }
+    .button:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
 
-        .circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-        }
+    .button .subtext {
+        font-size: 12px;
+        color: gray;
+    }
 
-        .square {
-            width: 30px;
-            height: 30px;
-        }
+    /* Background animation */
+    .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+    }
 
-        /* Анимация падения */
-        @keyframes fall {
-            0% {
-                transform: translateY(-50px);  /* Начало анимации чуть выше экрана */
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(110vh);  /* Конец анимации ниже экрана */
-                opacity: 0.3;  /* Фигуры становятся полупрозрачными внизу */
-            }
-        }
+    .circle-animation {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        opacity: 0.7;
+        animation: move 10s linear infinite;
+    }
 
-        /* Анимация вращения */
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);  /* Начальный угол */
-            }
-            to {
-                transform: rotate(360deg);  /* Круговое вращение */
-            }
+    @keyframes move {
+        from {
+            transform: translateY(-10px) translateX(0);
         }
-    </style>
+        to {
+            transform: translateY(100vh) translateX(calc(100vw - 10px));
+        }
+    }
+</style>
 </head>
 <body>
-    <!-- Логотип -->
-    <div class="header">
-        <img src="logo.png" alt="Логотип Мегафона">
+    <div class="background">
+        <!-- Generate multiple animated circles -->
+        <script>
+            for (let i = 0; i < 50; i++) {
+                const circle = document.createElement('div');
+                circle.classList.add('circle-animation');
+                circle.style.left = `${Math.random() * 100}vw`;
+                circle.style.animationDuration = `${5 + Math.random() * 10}s`;
+                circle.style.animationDelay = `${Math.random() * 5}s`;
+                document.body.querySelector('.background').appendChild(circle);
+            }
+        </script>
     </div>
 
-    <!-- Круг -->
-    <div class="background-circle"></div>
+    <header>
+        <div class="circle"></div>
+        <img src="logo.png" alt="Логотип Мегафон">
+    </header>
 
-    <!-- Контейнер с кнопками -->
-    <div class="button-container">
-        <a href="Хинди.pdf" class="button">हिंदी <span class="subtext">Хинди</span></a>
-        <a href="Французский.pdf" class="button">Français <span class="subtext">Французский</span></a>
-        <a href="Турецкий.pdf" class="button">Türkçe <span class="subtext">Турецкий</span></a>
-        <a href="Монгольский.pdf" class="button">Монгол <span class="subtext">Монгольский</span></a>
-        <a href="Китайский.pdf" class="button">中文 <span class="subtext">Китайский</span></a>
-        <a href="Испанский.pdf" class="button">Español <span class="subtext">Испанский</span></a>
-        <a href="Вьетнамский.pdf" class="button">Tiếng Việt <span class="subtext">Вьетнамский</span></a>
-        <a href="Армянский.pdf" class="button">Հայերեն <span class="subtext">Армянский</span></a>
-        <a href="Арабский.pdf" class="button">العربية <span class="subtext">Арабский</span></a>
-        <a href="Английский.pdf" class="button">English <span class="subtext">Английский</span></a>
+    <div class="search-container">
+        <input type="text" id="search" placeholder="Поиск по языкам..." oninput="filterButtons()">
+    </div>
+
+    <div class="buttons-container" id="buttons-container">
         <a href="Азербайджанский.pdf" class="button">Azərbaycan <span class="subtext">Азербайджанский</span></a>
+        <a href="Английский.pdf" class="button">English <span class="subtext">Английский</span></a>
+        <a href="Арабский.pdf" class="button">العربية <span class="subtext">Арабский</span></a>
+        <a href="Армянский.pdf" class="button">Հայերեն <span class="subtext">Армянский</span></a>
+        <a href="Хинди.pdf" class="button">हिंदी <span class="subtext">Хинди</span></a>
+        <a href="Буклет_инструкция_на_русском_языке.pdf" class="button">Русский <span class="subtext">Русский</span></a>
+        <a href="Вьетнамский.pdf" class="button">Tiếng Việt <span class="subtext">Вьетнамский</span></a>
+        <a href="Испанский.pdf" class="button">Español <span class="subtext">Испанский</span></a>
+        <a href="Итальянский.pdf" class="button">Italiano <span class="subtext">Итальянский</span></a>
+        <a href="Киргизский.pdf" class="button">Кыргызча <span class="subtext">Киргизский</span></a>
+        <a href="Китайский.pdf" class="button">中文 <span class="subtext">Китайский</span></a>
+        <a href="Монгольский.pdf" class="button">Монгол <span class="subtext">Монгольский</span></a>
+        <a href="Немецкий.pdf" class="button">Deutsch <span class="subtext">Немецкий</span></a>
+        <a href="Таджикский.pdf" class="button">Тоҷикӣ <span class="subtext">Таджикский</span></a>
+        <a href="Турецкий.pdf" class="button">Türkçe <span class="subtext">Турецкий</span></a>
+        <a href="Узбекский.pdf" class="button">O‘zbek <span class="subtext">Узбекский</span></a>
+        <a href="Французский.pdf" class="button">Français <span class="subtext">Французский</span></a>
     </div>
 
-    <!-- Фигуры с анимацией падения и вращения -->
-    <div class="shape circle" style="left: 5%; animation-delay: 0s;"></div>
-    <div class="shape square" style="left: 15%; animation-delay: 1s;"></div>
-    <div class="shape circle" style="right: 5%; animation-delay: 2s;"></div>
-    <div class="shape square" style="right: 15%; animation-delay: 3s;"></div>
+    <script>
+        function filterButtons() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach(button => {
+                const text = button.textContent.toLowerCase();
+                if (text.includes(query)) {
+                    button.style.display = 'flex';
+                } else {
+                    button.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
